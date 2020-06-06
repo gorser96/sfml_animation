@@ -21,6 +21,14 @@ Menu::Menu(std::string fileName)
 	_masks[1].setBaseRotation(0);
 	_masks[1].setSpeed(5);
 
+	_selectedBackground = 0;
+	_backgrounds[1].setSprite("images\\background1.jpg", sf::IntRect(0, 0, 1920, 1440));
+	_backgrounds[1].setBaseRotation(0);
+	_backgrounds[1].setSpeed(5);
+	_backgrounds[2].setSprite("images\\background2.jpg", sf::IntRect(0, 0, 2758, 1919));
+	_backgrounds[2].setBaseRotation(0);
+	_backgrounds[2].setSpeed(5);
+
 	_menuField.workspace.setFillColor(sf::Color(75, 170, 211, 64));
 
 	_menuField.frameFont.loadFromFile("Caveat-Regular.ttf");
@@ -128,6 +136,22 @@ Menu::Menu(std::string fileName)
 	_menuField.backgroundRight.setOrigin(
 		brPos.left + brPos.width / 2.0f,
 		brPos.top + brPos.height / 2.0f);
+
+	_backgrounds[1].setScale(getScaling(_backgrounds[1].getSize(),
+		sf::Vector2f(_menuField.backgroundLeft.getLocalBounds().width * _menuField.backgroundLeft.getScale().x, _menuField.backgroundLeft.getLocalBounds().height * _menuField.backgroundLeft.getScale().y)
+	));
+	_backgrounds[2].setScale(getScaling(_backgrounds[2].getSize(),
+		sf::Vector2f(_menuField.backgroundLeft.getLocalBounds().width * _menuField.backgroundLeft.getScale().x, _menuField.backgroundLeft.getLocalBounds().height * _menuField.backgroundLeft.getScale().y)
+	));
+
+	_menuField.backgroundSprite = _backgrounds[_selectedMask];
+	if (_menuField.backgroundSprite.isInit())
+	{
+		_menuField.backgroundSprite.setScale(
+			getScaling(sf::Vector2f(_menuField.backgroundSprite.getSprite().getTextureRect().width, _menuField.backgroundSprite.getSprite().getTextureRect().height),
+				sf::Vector2f(_menuField.backgroundLeft.getTextureRect().width * _menuField.backgroundLeft.getScale().x, _menuField.backgroundLeft.getTextureRect().height * _menuField.backgroundLeft.getScale().y))
+		);
+	}
 }
 
 void Menu::draw(sf::RenderWindow& window)
@@ -152,6 +176,10 @@ void Menu::draw(sf::RenderWindow& window)
 		window.draw(_menuField.backgroundTxt);
 		window.draw(_menuField.backgroundLeft);
 		window.draw(_menuField.backgroundRight);
+		if (_menuField.backgroundSprite.isInit())
+		{
+			window.draw(_menuField.backgroundSprite.getSprite());
+		}
 	}
 	else
 	{
@@ -161,111 +189,125 @@ void Menu::draw(sf::RenderWindow& window)
 
 void Menu::update(sf::RenderWindow& window)
 {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (clock.getElapsedTime().asMilliseconds() > 50.0f)
 	{
-		// transform the mouse position from window coordinates to world coordinates
-		sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-
-		if (_isActive)
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			// retrieve the bounding box of the sprite
-			sf::FloatRect bounds = _menuField.workspace.getGlobalBounds();
-			// hit test
-			if (bounds.contains(mouse))
+			// transform the mouse position from window coordinates to world coordinates
+			sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+
+			if (_isActive)
 			{
-				//clicking in menu field
-				sf::FloatRect flbg = _menuField.frameLeft.getGlobalBounds();
-				if (flbg.contains(mouse))
+				// retrieve the bounding box of the sprite
+				sf::FloatRect bounds = _menuField.workspace.getGlobalBounds();
+				// hit test
+				if (bounds.contains(mouse))
 				{
-					//clicking in frame left
-					if (_selectedFrame > 0)
+					//clicking in menu field
+					sf::FloatRect flbg = _menuField.frameLeft.getGlobalBounds();
+					if (flbg.contains(mouse))
 					{
-						_selectedFrame--;
-						_menuField.frameSprite = _frames[_selectedFrame];
-					}
-				}
-				else
-				{
-					sf::FloatRect frbg = _menuField.frameRight.getGlobalBounds();
-					if (frbg.contains(mouse))
-					{
-						//clicking in frame right
-						if (_selectedFrame < MAX_NUM_MASKS - 1)
+						//clicking in frame left
+						if (_selectedFrame > 0)
 						{
-							_selectedFrame++;
+							_selectedFrame--;
 							_menuField.frameSprite = _frames[_selectedFrame];
 						}
 					}
 					else
 					{
-						sf::FloatRect mlbg = _menuField.maskLeft.getGlobalBounds();
-						if (mlbg.contains(mouse))
+						sf::FloatRect frbg = _menuField.frameRight.getGlobalBounds();
+						if (frbg.contains(mouse))
 						{
-							//clicking in mask left
-							if (_selectedMask > 0)
+							//clicking in frame right
+							if (_selectedFrame < MAX_NUM_FRAMES - 1)
 							{
-								_selectedMask--;
-								_menuField.maskSprite = _masks[_selectedMask];
+								_selectedFrame++;
+								_menuField.frameSprite = _frames[_selectedFrame];
 							}
 						}
 						else
 						{
-							sf::FloatRect mrbg = _menuField.maskRight.getGlobalBounds();
-							if (mrbg.contains(mouse))
+							sf::FloatRect mlbg = _menuField.maskLeft.getGlobalBounds();
+							if (mlbg.contains(mouse))
 							{
-								//clicking in mask right
-								if (_selectedMask < MAX_NUM_MASKS - 1)
+								//clicking in mask left
+								if (_selectedMask > 0)
 								{
-									_selectedMask++;
+									_selectedMask--;
 									_menuField.maskSprite = _masks[_selectedMask];
 								}
 							}
 							else
 							{
-								sf::FloatRect blbg = _menuField.backgroundLeft.getGlobalBounds();
-								if (blbg.contains(mouse))
+								sf::FloatRect mrbg = _menuField.maskRight.getGlobalBounds();
+								if (mrbg.contains(mouse))
 								{
-									//clicking in background left
+									//clicking in mask right
+									if (_selectedMask < MAX_NUM_MASKS - 1)
+									{
+										_selectedMask++;
+										_menuField.maskSprite = _masks[_selectedMask];
+									}
 								}
 								else
 								{
-									sf::FloatRect brbg = _menuField.backgroundRight.getGlobalBounds();
-									if (brbg.contains(mouse))
+									sf::FloatRect blbg = _menuField.backgroundLeft.getGlobalBounds();
+									if (blbg.contains(mouse))
 									{
-										//clicking in background right
+										//clicking in background left
+										if (_selectedBackground > 0)
+										{
+											_selectedBackground--;
+											_menuField.backgroundSprite = _backgrounds[_selectedBackground];
+										}
 									}
 									else
 									{
+										sf::FloatRect brbg = _menuField.backgroundRight.getGlobalBounds();
+										if (brbg.contains(mouse))
+										{
+											//clicking in background right
+											if (_selectedBackground < MAX_NUM_BACKGROUNDS - 1)
+											{
+												_selectedBackground++;
+												_menuField.backgroundSprite = _backgrounds[_selectedBackground];
+											}
+										}
+										else
+										{
 
+										}
 									}
 								}
 							}
 						}
 					}
 				}
+				else
+				{
+					//hide menu field
+					_isActive = false;
+					_btn.setPosition(10, 10);
+				}
+				_updatePositions();
 			}
 			else
 			{
-				//hide menu field
-				_isActive = false;
-				_btn.setPosition(10, 10);
-			}
-			_updatePositions();
-		}
-		else
-		{
-			// retrieve the bounding box of the sprite
-			sf::FloatRect bounds = _btn.getGlobalBounds();
-			// hit test
-			if (bounds.contains(mouse))
-			{
-				//show menu field
-				sf::Vector2u wSize = window.getSize();
-				_menuField.workspace.setSize(sf::Vector2f(200, wSize.y - 20));
-				_updatePositions();
-				_isActive = true;
+				// retrieve the bounding box of the sprite
+				sf::FloatRect bounds = _btn.getGlobalBounds();
+				// hit test
+				if (bounds.contains(mouse))
+				{
+					//show menu field
+					sf::Vector2u wSize = window.getSize();
+					_menuField.workspace.setSize(sf::Vector2f(200, wSize.y - 20));
+					_updatePositions();
+					_isActive = true;
+				}
 			}
 		}
+		clock.restart();
 	}
 }
 
@@ -316,4 +358,7 @@ void Menu::_updatePositions()
 	_menuField.backgroundRight.setPosition(
 		wgPos.x + wlPos.width - _menuField.backgroundRight.getLocalBounds().width * _menuField.backgroundRight.getScale().x,
 		blockPoint3.y - _menuField.backgroundRight.getLocalBounds().height * _menuField.backgroundRight.getScale().y - padding);
+	_menuField.backgroundSprite.setPosition(
+		blockPoint3.x,
+		blockPoint3.y - _menuField.backgroundSprite.getLocalBounds().height * _menuField.backgroundSprite.getScale().y - padding);
 }

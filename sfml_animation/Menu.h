@@ -4,7 +4,7 @@
 #include "AnimatedSprite.h"
 #define MAX_NUM_MASKS 2
 #define MAX_NUM_FRAMES 2
-#define MAX_NUM_BACKGROUNDS 2
+#define MAX_NUM_BACKGROUNDS 3
 
 class Menu
 {
@@ -44,6 +44,7 @@ private:
 	sf::Texture _texture;
 	sf::Sprite _btn;
 	bool _isActive;
+	sf::Clock clock;
 
 	void _updatePositions();
 
