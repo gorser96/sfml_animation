@@ -3,6 +3,7 @@
 #include "AnimatedSprite.h"
 #include <math.h>
 #include "VectorHelper.h"
+#include "Menu.h"
 
 int main()
 {
@@ -11,20 +12,18 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Animations");
 	window.setFramerateLimit(30);
 	window.setVerticalSyncEnabled(true);
-	sf::Texture texture;
-	texture.loadFromFile("images\\fireball_3_529_600_6_5.png");
-	sf::IntRect rectSourceSprite(0, 0, 529, 600);
-	sf::Sprite sprite(texture, rectSourceSprite);
+
+	Menu menu("images\\menu_btn.png");
 
 	sf::Clock clock;
 
-	AnimatedSprite aSprite(&sprite, 90, 5);
+	AnimatedSprite aSprite("images\\tomato_128_128.png", sf::IntRect(0, 0, 128, 128), 0, 5);
 	aSprite.setScale(sf::Vector2f(0.1, 0.1));
 
 	sf::Vector2u wSize = window.getSize();
 
 	//П.С. тут локальные координаты
-	aSprite.getSprite()->setPosition(sf::Vector2f(wSize.x / 2, wSize.y / 2));
+	aSprite.setPosition(sf::Vector2f(wSize.x / 2, wSize.y / 2));
 
 	// run the program as long as the window is open
 	while (window.isOpen())
@@ -38,6 +37,8 @@ int main()
 				window.close();
 		}
 
+		menu.update(window);
+
 		if (clock.getElapsedTime().asMilliseconds() > 10.0f)
 		{
 			//П.С. тут получаем локальные координаты мыши
@@ -47,7 +48,7 @@ int main()
 			sf::Vector2f slPos = aSprite.getLocalPosition();
 			*/
 
-			aSprite.move(sf::Vector2f(-0.3,-1));
+			aSprite.move(sf::Vector2f(-1, -1));
 
 			clock.restart();
 		}
@@ -56,7 +57,8 @@ int main()
 		window.clear();
 
 		// draw everything here...
-		window.draw(*aSprite.getSprite());
+		window.draw(aSprite.getSprite());
+		menu.draw(window);
 
 		// end the current frame
 		window.display();
