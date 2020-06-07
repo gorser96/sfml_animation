@@ -32,6 +32,8 @@ public:
 	void setSprite(std::string, sf::IntRect);
 	void setBaseRotation(float);
 	void setSpeed(float);
+	void setOrigin(float, float);
+	void setOrigin(sf::Vector2f);
 	bool isInit();
 
 private:

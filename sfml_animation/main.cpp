@@ -3,7 +3,7 @@
 #include "AnimatedSprite.h"
 #include <math.h>
 #include "VectorHelper.h"
-#include "Menu.h"
+#include "MenuUpdated.h"
 
 int main()
 {
@@ -13,11 +13,11 @@ int main()
 	window.setFramerateLimit(30);
 	window.setVerticalSyncEnabled(true);
 
-	Menu menu("images\\menu_btn.png");
+	MenuUpdated menu;
 
 	sf::Clock clock;
 
-	AnimatedSprite aSprite("images\\tomato_128_128.png", sf::IntRect(0, 0, 128, 128), 0, 5);
+	AnimatedSprite aSprite("images/effects/tomato_128_128_5_6_0.png", sf::IntRect(0, 0, 128, 128), 0, 5);
 	aSprite.setScale(sf::Vector2f(0.1, 0.1));
 
 	sf::Vector2u wSize = window.getSize();

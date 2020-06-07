@@ -162,6 +162,15 @@ void AnimatedSprite::setSpeed(float speed)
 	_speed = speed;
 }
 
+void AnimatedSprite::setOrigin(float x, float y)
+{
+	_sprite.setOrigin(x, y);
+}
+void AnimatedSprite::setOrigin(sf::Vector2f origin)
+{
+	_sprite.setOrigin(origin);
+}
+
 bool AnimatedSprite::isInit()
 {
 	return _isInit;

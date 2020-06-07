@@ -89,6 +89,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\winda\source\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,12 +146,16 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MenuBlock.cpp" />
+    <ClCompile Include="MenuUpdated.cpp" />
     <ClCompile Include="SpriteHelper.cpp" />
     <ClCompile Include="VectorHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuBlock.h" />
+    <ClInclude Include="MenuUpdated.h" />
     <ClInclude Include="SpriteHelper.h" />
     <ClInclude Include="VectorHelper.h" />
   </ItemGroup>

@@ -58,14 +58,15 @@ Menu::Menu(std::string fileName)
 		frPos.left + frPos.width / 2.0f,
 		frPos.top + frPos.height / 2.0f);
 
-	_frames[1].setScale(getScaling(_frames[1].getSize(),
+	_frames[1].setScale(getScaling(_frames[1].getScale(), _frames[1].getSize(),
 		sf::Vector2f(_menuField.frameLeft.getLocalBounds().width * _menuField.frameLeft.getScale().x, _menuField.frameLeft.getLocalBounds().height * _menuField.frameLeft.getScale().y)
 	));
 	_menuField.frameSprite = _masks[_selectedMask];
 	if (_menuField.frameSprite.isInit())
 	{
 		_menuField.frameSprite.setScale(
-			getScaling(sf::Vector2f(_menuField.frameSprite.getSprite().getTextureRect().width, _menuField.frameSprite.getSprite().getTextureRect().height),
+			getScaling(_menuField.frameSprite.getScale(),
+				sf::Vector2f(_menuField.frameSprite.getSprite().getTextureRect().width, _menuField.frameSprite.getSprite().getTextureRect().height),
 				sf::Vector2f(_menuField.frameLeft.getTextureRect().width * _menuField.frameLeft.getScale().x, _menuField.frameLeft.getTextureRect().height * _menuField.frameLeft.getScale().y))
 		);
 	}
@@ -97,7 +98,7 @@ Menu::Menu(std::string fileName)
 		mrPos.left + mrPos.width / 2.0f,
 		mrPos.top + mrPos.height / 2.0f);
 
-	_masks[1].setScale(getScaling(_masks[1].getSize(),
+	_masks[1].setScale(getScaling(_masks[1].getScale(), _masks[1].getSize(),
 		sf::Vector2f(_menuField.maskLeft.getLocalBounds().width * _menuField.maskLeft.getScale().x, _menuField.maskLeft.getLocalBounds().height * _menuField.maskLeft.getScale().y)
 	));
 
@@ -105,7 +106,8 @@ Menu::Menu(std::string fileName)
 	if (_menuField.maskSprite.isInit())
 	{
 		_menuField.maskSprite.setScale(
-			getScaling(sf::Vector2f(_menuField.maskSprite.getSprite().getTextureRect().width, _menuField.maskSprite.getSprite().getTextureRect().height),
+			getScaling(_menuField.maskSprite.getScale(),
+				sf::Vector2f(_menuField.maskSprite.getSprite().getTextureRect().width, _menuField.maskSprite.getSprite().getTextureRect().height),
 				sf::Vector2f(_menuField.maskLeft.getTextureRect().width * _menuField.maskLeft.getScale().x, _menuField.maskLeft.getTextureRect().height * _menuField.maskLeft.getScale().y))
 		);
 	}
@@ -137,10 +139,10 @@ Menu::Menu(std::string fileName)
 		brPos.left + brPos.width / 2.0f,
 		brPos.top + brPos.height / 2.0f);
 
-	_backgrounds[1].setScale(getScaling(_backgrounds[1].getSize(),
+	_backgrounds[1].setScale(getScaling(_backgrounds[1].getScale(),_backgrounds[1].getSize(),
 		sf::Vector2f(_menuField.backgroundLeft.getLocalBounds().width * _menuField.backgroundLeft.getScale().x, _menuField.backgroundLeft.getLocalBounds().height * _menuField.backgroundLeft.getScale().y)
 	));
-	_backgrounds[2].setScale(getScaling(_backgrounds[2].getSize(),
+	_backgrounds[2].setScale(getScaling(_backgrounds[1].getScale(),_backgrounds[2].getSize(),
 		sf::Vector2f(_menuField.backgroundLeft.getLocalBounds().width * _menuField.backgroundLeft.getScale().x, _menuField.backgroundLeft.getLocalBounds().height * _menuField.backgroundLeft.getScale().y)
 	));
 
@@ -148,7 +150,8 @@ Menu::Menu(std::string fileName)
 	if (_menuField.backgroundSprite.isInit())
 	{
 		_menuField.backgroundSprite.setScale(
-			getScaling(sf::Vector2f(_menuField.backgroundSprite.getSprite().getTextureRect().width, _menuField.backgroundSprite.getSprite().getTextureRect().height),
+			getScaling(_menuField.backgroundSprite.getScale(),
+				sf::Vector2f(_menuField.backgroundSprite.getSprite().getTextureRect().width, _menuField.backgroundSprite.getSprite().getTextureRect().height),
 				sf::Vector2f(_menuField.backgroundLeft.getTextureRect().width * _menuField.backgroundLeft.getScale().x, _menuField.backgroundLeft.getTextureRect().height * _menuField.backgroundLeft.getScale().y))
 		);
 	}
